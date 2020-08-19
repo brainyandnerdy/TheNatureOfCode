@@ -2,12 +2,12 @@
 # Daniel Shiffman
 # http://natureofcode.com
 
-import turtle
+import pygame
 import random as rnd
 
 width = 640
 height = 240
-t = turtle.Turtle()
+t = pygame.display.set_mode((width,height))
 
 #An array to keep track of how often random numbers are picked
 randomCounts = []
@@ -18,11 +18,8 @@ def setup():
     global randomCounts
     global t
 
-    turtle.screensize(width, height)
-    #speed(1)
-
-    for i in range(0,20):
-        randomCounts.append(rnd.randint(0, height))
+    for i in range(0,80):
+        randomCounts.append(0)
 
 def draw():
     global width
@@ -31,24 +28,12 @@ def draw():
 
     index = rnd.randint(0, len(randomCounts))
     randomCounts.append(index)
-
-    t.pencolor('black')
-    t.penup()
-    t.setx(width/2)
-    t.sety(height/2)
-    t.dot()
-    t.pendown()
-
-    w = width/len(randomCounts)
+    
+    w = int(width/len(randomCounts))
 
     for x in range(0,len(randomCounts)):
-        t.forward(x * w) #Forward turtle by 150 units
-        t.left(height-randomCounts[x]) #Turn turtle by 90 degree
-        t.forward(w-1) #Forward turtle by 80 units
-        t.left(randomCounts[x]) #Turn turtle by 90 degree
-    
-    #w.step()
-    #w.render()
+        pygame.draw.rect(t,pygame.Color('white'), pygame.Rect(x*w,height-randomCounts[x],w-1,randomCounts[x]))
+        pygame.display.update()
 
 setup()
 while(True):

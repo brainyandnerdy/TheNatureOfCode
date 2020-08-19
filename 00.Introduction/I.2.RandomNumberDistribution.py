@@ -18,7 +18,7 @@ def setup():
     global randomCounts
     global t
 
-    for i in range(0,80):
+    for i in range(0,20):
         randomCounts.append(0)
 
 def draw():

@@ -4,6 +4,7 @@
 
 import pygame
 import random as rnd
+import math
 
 width = 640
 height = 360
@@ -30,6 +31,8 @@ class PVector:
         self.x /= n
         self.y /= n
         
+    def mag(self):
+        return math.sqrt(self.x * self.x + self.y * self.y)
 
 def draw():
     global width
@@ -40,10 +43,10 @@ def draw():
     mouse = PVector(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
     center = PVector(width/2, height/2)
     
-    # Multiplying a vector!  The vector is now half its original size (multiplied by 0.5).
-    mouse.mult(0.5)    
-    
+    m = mouse.mag()       
+
     window.fill((0,0,0))  # Fills the screen with black
+    pygame.draw.rect(window, pygame.Color('white'), (0,0,m,10))
     pygame.draw.line(window, pygame.Color('white'), (center.x, center.y), (mouse.x, mouse.y), 1) 
     pygame.display.update()    
     pygame.time.delay(10)

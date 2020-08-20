@@ -8,6 +8,7 @@ import random as rnd
 width = 800
 height = 200
 window = pygame.display.set_mode((width,height))
+window.fill(pygame.Color('black'))
 
 # Values taken from https://github.com/sol-prog/Perlin_Noise/blob/master/PerlinNoise.cpp
 Gradient = [151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,
@@ -37,15 +38,18 @@ class Walker:
         
     def render(self):
         global window
-        
+
+        window.fill((0,0,0))  # Fills the screen with black
         pygame.draw.ellipse(window, pygame.Color('white'), (self.position.x, self.position.y, 48, 48))  
         pygame.display.update()
+        pygame.time.delay(10)
 
     # Randomly move up, down, left, right, or stay in one place
     def step(self):
         global width
         global height
         
+        # Java version of the map function from Processing:
         # map(float value, float istart, float istop, float ostart, float ostop) {
         #        return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))
         #    }
@@ -53,8 +57,10 @@ class Walker:
         # self.position.x = map(perlin_noise(self.noff.x, 0), 0, 1, 0, width)
         # will become:
         # self.position.x = 0 + (width - 0) * ((perlin_noise(self.noff.x, 0) - 0) / (1 - 0))
-        self.position.x = width * perlin_noise(self.noff.x, 0)
-        self.position.y = height * perlin_noise(self.noff.y, 0)
+                
+        self.position.x = width * perlin_noise(self.noff.x, 1)
+        self.position.y = height * perlin_noise(self.noff.y, 1)
+        
         self.noff.x += 0.01
         self.noff.y += 0.01
 

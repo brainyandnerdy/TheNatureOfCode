@@ -4,6 +4,7 @@
 
 import pygame
 import random as rnd
+import math
 
 width = 640
 height = 360
@@ -22,6 +23,22 @@ class PVector:
         self.x -= vector.x
         self.y -= vector.y
 
+    def mult(self, n):
+        self.x *= n
+        self.y *= n
+    
+    def div(self, n):
+        self.x /= n
+        self.y /= n
+        
+    def mag(self):
+        return math.sqrt(self.x * self.x + self.y * self.y)
+
+    def normalize(self):
+        m = self.mag()
+        if m != 0:
+            self.div(m)
+
 def draw():
     global width
     global height
@@ -30,10 +47,13 @@ def draw():
     #if pygame.mouse.get_pressed()[0]:
     mouse = PVector(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
     center = PVector(width/2, height/2)
-    #mouse.sub(center)    
+
+    mouse.normalize()      
+
+    mouse.mult(150)
     
     window.fill((0,0,0))  # Fills the screen with black
-    pygame.draw.line(window, pygame.Color('white'), (int(center.x), int(center.y)), (int(mouse.x), int(mouse.y)), 1) 
+    pygame.draw.line(window, pygame.Color('white'), (center.x, center.y), (mouse.x, mouse.y), 2) 
     pygame.display.update()    
     
 while(True):

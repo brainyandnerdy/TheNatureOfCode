@@ -78,3 +78,19 @@ class PVector:
         else:
             #return fromAngle(parent.random(PConstants.TAU), target);
             return self.fromAngle(rnd.random() * math.pi * 2, target)
+
+    def copy(self):
+        return PVector(self.x, self.y, self.z)
+
+    def get(self, target = None):
+        if target == None:
+            return PVector(self.x, self.y, self.z)
+        
+        if len(target) >= 2:
+            target[0] = self.x
+            target[1] = self.y
+
+        if len(target) >= 3:
+            target[2] = self.z
+
+        return target

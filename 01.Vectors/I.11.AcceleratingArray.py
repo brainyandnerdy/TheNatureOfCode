@@ -90,6 +90,7 @@ class Mover:
         self.topSpeed = 5
 
     def update(self):
+        pygame.event.wait()
         mouse = PVector(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
         self.acceleration = self.acceleration.sub(mouse,self.position)
         #self.acceleration.setMag(0.2)

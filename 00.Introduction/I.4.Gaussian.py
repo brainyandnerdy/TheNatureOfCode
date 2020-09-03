@@ -28,6 +28,7 @@ def draw():
 
     pygame.draw.ellipse(window, pygame.Color('white'), (xloc, height/2, 16, 16))  # Draw an ellipse at our "normal" random position
     pygame.display.update()
+    pygame.time.delay(10)
     
 setup()
 while(True):

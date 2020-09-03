@@ -9,6 +9,7 @@ import math
 width = 640
 height = 480
 window = pygame.display.set_mode((width,height))
+pygame.event.get() 
 
 class PVector:
     def __init__(self, x, y, z=0):
@@ -90,6 +91,7 @@ class Mover:
         self.topSpeed = 5
 
     def update(self):
+        pygame.event.wait()
         mouse = PVector(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
         self.acceleration = self.acceleration.sub(mouse,self.position)
         self.acceleration.setMag(0.2)

@@ -39,7 +39,7 @@ def draw():
     global height
     global window
 
-    #if pygame.mouse.get_pressed()[0]:
+    pygame.event.wait()
     mouse = PVector(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
     center = PVector(width/2, height/2)
     

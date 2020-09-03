@@ -10,6 +10,7 @@ import PVector as pv
 width = 640
 height = 360
 window = pygame.display.set_mode((width,height))
+pygame.init()
 
 class Mover:
     def __init__(self, m, x, y):
@@ -90,7 +91,6 @@ class Liquid:
 movers = []
 
 liquid = Liquid(0,height/2, width, height/2, 0.1)
-pygame.event.get() 
 
 for i in range(0,9):
     movers.append(Mover(rnd.uniform(0.5,3), 40 + i * 70, 0))
@@ -99,7 +99,7 @@ def reset():
     global movers 
 
     for i in range(0,9):
-        movers.append(Mover(rnd.uniform(0.5,3), 40 + i * 70, 0))
+        movers[i] = Mover(rnd.uniform(0.5,3), 40 + i * 70, 0)
 
 def draw():
     global movers
@@ -126,9 +126,11 @@ def draw():
         movers[i].display()
         movers[i].checkEdges()
     
-    if(pygame.mouse.get_pressed()[0]):
-        reset()
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            window.fill((0,0,0))  # Fills the screen with black
+            reset()
     
-while(True):
+while(True):   
     draw()
 

@@ -11,34 +11,43 @@ height = 150
 
 angle = 0
 
-#pygame.init()
-window = pygame.display.set_mode((width,height))
+def rotatePoint(cx, cy, angle, px, py):
+    """
+    cx, cy = pivot point
+    angle is in radians 
+    px, py = point to rotate
+    """
+    s = math.sin(angle)
+    c = math.cos(angle)
 
-image_orig = pygame.Surface((150, 150))
-rotating_image = image_orig.copy()
-rect = rotating_image.get_rect()  
-rect.center = (width / 2 , height / 2)  
+    # translate point back to origin
+    px -= cx
+    py -= cy
+
+    # rotate point
+    newx = px * c - py * s
+    newy = px * s + py * c
+
+    # translate point back
+    px = newx + cx
+    py = newy + cy
+    return (px, py)
+
+window = pygame.display.set_mode((width,height))
 
 def draw():
     global window
     global angle 
-    global rotating_image
-    global rect
 
     window.fill((0,0,0))  # Fills the screen with black
-
-    oldCenter = rect.center
-    angle += 0.05
-    pygame.draw.line(rotating_image, pygame.Color('white'), (width/2 - 50, height/2), (width/2 + 50, height/2), 2) 
-    pygame.draw.ellipse(rotating_image, pygame.Color('white'), (width/2 - 50, height/2, 16, 16)) 
-    pygame.draw.ellipse(rotating_image, pygame.Color('white'), (width/2 + 50, height/2, 16, 16)) 
-    rotating_image = pygame.transform.rotate(rotating_image, angle)
-    rect = rotating_image.get_rect()
-    rect.center = oldCenter
-    window.blit(rotating_image, rect)
-    pygame.display.flip()
     
+    pygame.draw.line(window, pygame.Color('white'), rotatePoint(width/2, height/2, angle, width/2 - 50, height/2), rotatePoint(width/2, height/2, angle, width/2 + 50, height/2), 2) 
+    leftEllipsePoint = rotatePoint(width/2, height/2, angle, width/2 - 50, height/2)
+    pygame.draw.ellipse(window, pygame.Color('white'), (leftEllipsePoint[0] - 8, leftEllipsePoint[1] - 8, 16, 16)) 
+    rightEllipsePoint = rotatePoint(width/2, height/2, angle, width/2 + 50, height/2)
+    pygame.draw.ellipse(window, pygame.Color('white'), (rightEllipsePoint[0] - 8, rightEllipsePoint[1] - 8, 16, 16)) 
     pygame.display.update()  
+    angle += 0.0005
 
 while(True):
     draw()

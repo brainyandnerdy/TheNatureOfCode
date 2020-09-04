@@ -27,8 +27,7 @@ class Mover:
         self.position.add(self.velocity)
         self.acceleration.mult(0)
 
-    def display(self):
-        
+    def display(self):        
         pygame.draw.ellipse(window, pygame.Color('white'), (self.position.x, self.position.y, self.mass * 16, self.mass * 16)) 
         pygame.display.update()   
         #pygame.time.delay(10)

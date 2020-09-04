@@ -26,11 +26,11 @@ def dist(x1, y1, x2, y2):
 
 
 class Mover:
-    def __init__(self):
-        self.position = pv.PVector(400, 50)
+    def __init__(self, m, x, y):
+        self.position = pv.PVector(x, y)
         self.velocity = pv.PVector(1, 0)
         self.acceleration = pv.PVector(0, 0)
-        self.mass = 1
+        self.mass = m
 
     def applyForce(self, force):
         f = pv.PVector(0,0,0).div(self.mass, force)
@@ -41,9 +41,8 @@ class Mover:
         self.position.add(self.velocity)
         self.acceleration.mult(0)
 
-    def display(self):
-        
-        pygame.draw.ellipse(window, pygame.Color('white'), (self.position.x, self.position.y, 16, 16)) 
+    def display(self):        
+        pygame.draw.ellipse(window, pygame.Color('white'), (self.position.x, self.position.y, self.mass * 25, self.mass * 25)) 
         pygame.display.update()   
         pygame.time.delay(10)
     
@@ -107,27 +106,31 @@ class Attractor:
             self.position.x = pygame.mouse.get_pos()[0] + self.dragOffset.x
             self.position.y = pygame.mouse.get_pos()[1] + self.dragOffset.y
 
-mover = Mover()
+# Setup
+movers = []
+
+for i in range(0,10):
+    movers.append(Mover(rnd.uniform(0.1,2), rnd.randint(0, width), rnd.randint(0, height)))
+
 attractor = Attractor()
 
+
 def draw():
-    global mover
+    global movers
     global attractor
     global window
 
     window.fill((0,0,0))  # Fills the screen with black
-    
     pygame.event.get()
-
-    force = attractor.attract(mover)
-    mover.applyForce(force)
-    mover.update()
-
+    attractor.display()
     attractor.drag()
     attractor.hover(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
 
-    attractor.display()
-    mover.display()
+    for i in range(0, len(movers)):        
+        force = attractor.attract(movers[i])
+        movers[i].applyForce(force)
+        movers[i].update()
+        movers[i].display()
 
     if(pygame.mouse.get_pressed()[0]):
         attractor.clicked(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])

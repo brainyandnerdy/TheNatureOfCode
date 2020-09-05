@@ -70,14 +70,17 @@ class Mover:
 
         self.acceleration.mult(0)
 
-    def display(self):     
-        # pushMatrix()  
-        topLeftRectPoint = rotatePoint(width/2, height/2, self.angle, width/2 - 50, height/2) 
-        bottomRightRectPoint = rotatePoint(width/2, height/2, self.angle, width/2 - 50, height/2) 
-        pygame.draw.rect(window, pygame.Color('white'), (width/2, height/2, self.mass * 16, self.mass * 16)) 
+    def display(self):    
+        rectCenterX = self.position.x
+        rectCenterY = self.position.y
+        distanceFromCenter = self.mass * 16 / 2
+        pygame.draw.polygon(window, pygame.Color('white'), 
+            [rotatePoint(rectCenterX, rectCenterY, self.angle, rectCenterX - distanceFromCenter, rectCenterY - distanceFromCenter),   # Left up point
+             rotatePoint(rectCenterX, rectCenterY, self.angle, rectCenterX + distanceFromCenter, rectCenterY - distanceFromCenter),   # Right up point
+             rotatePoint(rectCenterX, rectCenterY, self.angle, rectCenterX + distanceFromCenter, rectCenterY + distanceFromCenter),   # Right bottom point
+             rotatePoint(rectCenterX, rectCenterY, self.angle, rectCenterX - distanceFromCenter, rectCenterY + distanceFromCenter)])  # Left bottom point
         pygame.display.update()   
-        pygame.time.delay(10)
-        # popMatrix()   
+        pygame.time.delay(5)
 
 # A class for a draggable attractive body in our world
 class Attractor:

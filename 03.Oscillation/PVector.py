@@ -94,3 +94,10 @@ class PVector:
             target[2] = self.z
 
         return target
+
+    def heading(self):
+        angle = math.atan2(self.y, self.x)
+        return angle
+
+    def heading2D(self):
+        return self.heading()

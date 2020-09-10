@@ -10,7 +10,6 @@ import PVector as pv
 width = 640
 height = 360
 window = pygame.display.set_mode((width,height))
-pygame.init()
 
 class Mover:
     def __init__(self, m, x, y):

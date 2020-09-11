@@ -74,24 +74,22 @@ class Perceptron:
 
 # The function to describe a line
 def f(x):
-    return 2 * x + 1
+    return 0.4 * x + 1
 
 # Setup
 count = 0 # We will train the perceptron with one "Point" object at a time
 
 # Coordinate space
-xmin = -400
-ymin = -100
-xmax = 400
-ymax = 100
+xmin = -width/2
+ymin = -height/2
+xmax = width/2
+ymax = height/2
 
 training = [] # A list of points we will use to "train" the perceptron
 # Create a random set of training points and calculate the "known" answer
-for i in range(0, 2000):
-    #x = rnd.randint(-width/2, width/2)
-    #y = rnd.randint(-height/2, height/2)
-    x = rnd.randint(0, width)
-    y = rnd.randint(0, height)
+for i in range(0, 2000):    
+    x = rnd.randint(width/2 + xmin, width/2 + xmax)
+    y = rnd.randint(height/2 + ymin, height/2 + ymax)
     answer = 1
     if(y < f(x)):
         answer = -1
@@ -119,7 +117,7 @@ def draw():
     # Draw the line
     x1 = xmin
     y1 = f(x1)
-    x2 = xmax
+    x2 = xmax * 2
     y2 = f(x2)
     pygame.draw.line(window, (255, 255, 255),(x1, y1), (x2, y2), 4)
     pygame.display.update() 
@@ -129,10 +127,9 @@ def draw():
     weights = ptron.getWeights()
     x1 = xmin
     y1 = (-weights[2] - weights[0]*x1)/weights[1]
-    x2 = xmax
+    x2 = xmax * 2
     y2 = (-weights[2] - weights[0]*x2)/weights[1]
     pygame.draw.line(window, (255, 255, 255),(x1, y1), (x2, y2), 1)
-
     pygame.display.update() 
 
     # Train the Perceptron with one "training" point at a time
